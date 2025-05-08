@@ -9,10 +9,15 @@ class InventoryListView(generics.ListAPIView):
     serializer_class = InventorySerializer
 
     def get_queryset(self):
-        queryset = Inventory.objects.select_related('supplier')
         name = self.request.query_params.get('name', None)
+        supplier = self.request.query_params.get('supplier', None)
+        query = Q()
         if name is not None:
-            queryset = queryset.filter(
-                Q(name__icontains=name)
-            )
+            query.add(Q(name__icontains=name), Q.AND)
+        if supplier is not None:
+            query.add(Q(supplier__name__icontains=supplier), Q.AND)
+
+        queryset = Inventory.objects.select_related('supplier').filter(
+            query
+        ).only('id', 'name', 'supplier__name', 'availability')
         return queryset
