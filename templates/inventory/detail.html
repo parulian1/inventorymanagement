@@ -1,0 +1,17 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Detail - {{ item.name }}</title>
+</head>
+
+<body>
+  <h1>{{ item.name }}</h1>
+  <p>Description: {{ item.description }}</p>
+  <p>Note: {{ item.note }}</p>
+  <p>Stock: {{ item.stock }}</p>
+  <p>Supplier: {{ item.supplier.name }}</p>
+  <img src="{% static 'assets/image_not_available.png' %}" alt="Thumbnail">
+</body>
+</html>
